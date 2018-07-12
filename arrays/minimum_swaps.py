@@ -33,31 +33,38 @@ import random
 import re
 import sys
 
-
 # Complete the minimumSwaps function below.
 def minimumSwaps(v):
     swaps = 0
-    element = 1
-    while element < len(v):
-        for i in range(element - 1, len(v)):
-            if v[i] == element:
-                if i != element - 1:
-                    v[element - 1], v[i] = v[i], v[element - 1]
-                    swaps += 1
-                    break
-        element += 1
+    d = {val: idx for idx, val in enumerate(v)}
+    for i in range(len(v) - 1):
+        if v[i] != i + 1:
+            idxs = i
+            idxd = d[i + 1]
+            v[idxs], v[idxd] = v[idxd], v[idxs]
+            d[i + 1], d[v[idxd]] = d[v[idxd]], d[i + 1]
+            swaps += 1
     return swaps
 
 
-if __name__ == '__main__':
-    fptr = open(os.environ['OUTPUT_PATH'], 'w')
 
-    n = int(input())
+# arr = [4, 3, 1, 2]
+# arr = [2, 3, 4, 1, 5]
+arr = [3,7,6,9,1,8,10,4,2,5]
+swaps = minimumSwaps(arr)
+print(arr)
+print(swaps)
 
-    arr = list(map(int, input().rstrip().split()))
+# if __name__ == '__main__':
+#     fptr = open(os.environ['OUTPUT_PATH'], 'w')
+#
+#     n = int(input())
+#
+#     arr = list(map(int, input().rstrip().split()))
+#
+#     res = minimumSwaps(arr,0,len(arr)-1)
+#
+#     fptr.write(str(res) + '\n')
+#
+#     fptr.close()
 
-    res = minimumSwaps(arr)
-
-    fptr.write(str(res) + '\n')
-
-    fptr.close()
